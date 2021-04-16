@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    android:layout_marginTop="6dp"
+    android:background="@drawable/focusable_background"
+    android:focusable="true"
+    android:gravity="end"
+    android:orientation="vertical"
+    android:paddingEnd="8dp"
+    android:paddingStart="8dp">
+
+    <LinearLayout
+        android:id="@+id/message_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/message_round_sent_background"
+        android:backgroundTint="@color/white"
+        android:clickable="true"
+        android:maxWidth="@dimen/max_message_width"
+        android:orientation="vertical"
+        android:paddingEnd="20dp"
+        android:paddingRight="20dp"
+        android:paddingStart="8dp"
+        android:paddingLeft="8dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxWidth="@dimen/max_message_width"
+            android:padding="6dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/primaryText"
+            android:textSize="16sp"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/timestamp_height"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="-2dp"
+        android:textColor="@color/secondaryText"
+        android:textSize="12sp" />
+
+</LinearLayout>

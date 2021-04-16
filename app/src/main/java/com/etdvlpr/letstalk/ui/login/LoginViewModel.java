@@ -6,9 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.etdvlpr.letstalk.data.LoginRepository;
-import com.etdvlpr.letstalk.data.Result;
-import com.etdvlpr.letstalk.data.model.LoggedInUser;
 import com.etdvlpr.letstalk.R;
 
 public class LoginViewModel extends ViewModel {

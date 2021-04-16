@@ -28,6 +28,7 @@ import com.etdvlpr.letstalk.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static String userName;
     private LoginViewModel loginViewModel;
 
     @Override
