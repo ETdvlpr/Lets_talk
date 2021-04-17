@@ -20,7 +20,6 @@ public class DataRepository {
     private UserDao userDao;
     private letsTalkDb DB;
     private static DataRepository instance;
-    private LiveData<List<UserMessage>> conversationList;
 
     public static DataRepository getInstance(Context context) {
         if(instance == null) {
@@ -34,26 +33,32 @@ public class DataRepository {
         messageDao = DB.messageDao();
         userDao = DB.userDao();
         userMessageDao = DB.userMessageDao();
-        conversationList = userMessageDao.getConversationList();
     }
 
-    // Room executes all queries on a separate thread.
-    // Observed LiveData will notify the observer when the data has changed.
-    public LiveData<List<UserMessage>> getConversationList() {
-        return conversationList;
-    }
-
-    // You must call this on a non-UI thread or your app will throw an exception. Room ensures
-    // that you're not doing any long running operations on the main thread, blocking the UI.
-    public void insertMessage(Message msg) {
+    public void insertMessages(Message... newMessages) {
         DB.databaseWriteExecutor.execute(() -> {
-            messageDao.insert(msg);
+            messageDao.insert(newMessages);
         });
     }
 
-//    public List<User> getUserConversationList() {
+    public void insertUsers(User... newUsers) {
+        DB.databaseWriteExecutor.execute(() -> {
+            userDao.insert(newUsers);
+        });
+    }
+
+    public boolean checkUserName(String userName) {
+        try {
+            return Executors.newSingleThreadExecutor().submit(()->userDao.checkUserName(userName)).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+//    public LiveData<List<UserMessage>> getConversationList(String userName) {
 //        try {
-//            return Executors.newSingleThreadExecutor().submit(userDao::getUserConversationList).get();
+//            return Executors.newSingleThreadExecutor().submit(()->userMessageDao.getConversationList(userName)).get();
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }

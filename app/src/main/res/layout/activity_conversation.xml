@@ -13,7 +13,7 @@
         android:layout_weight="1">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/messageRecyclerView"
+            android:id="@+id/activity_conversation_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none" />
@@ -31,16 +31,17 @@
         android:layout_height="wrap_content"
         android:padding="2dp">
         <EditText
-            android:id="@+id/editTextMessage"
+            android:id="@+id/activity_conversation_message"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <ImageView
-            android:id="@+id/buttonMessage"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primaryText"/>
+        <ImageButton
+            android:id="@+id/activity_conversation_message_button"
             android:src="@android:drawable/ic_menu_send"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:padding="4dp"
-            android:layout_alignBottom="@+id/editTextMessage"
+            android:layout_alignBottom="@+id/activity_conversation_message"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             />

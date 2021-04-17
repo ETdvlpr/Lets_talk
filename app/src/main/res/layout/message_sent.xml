@@ -28,7 +28,7 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:id="@+id/message"
+            android:id="@+id/sent_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxWidth="@dimen/max_message_width"
@@ -42,7 +42,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/timestamp"
+        android:id="@+id/sent_timestamp"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/timestamp_height"
         android:layout_marginBottom="2dp"

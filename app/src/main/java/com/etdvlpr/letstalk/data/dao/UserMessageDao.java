@@ -1,6 +1,7 @@
 package com.etdvlpr.letstalk.data.dao;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Query;
 
@@ -12,8 +13,14 @@ import java.util.List;
 @Dao
 public interface UserMessageDao {
 
-    @Query("SELECT display_name AS displayName, content AS lastMessage, send_time AS lastMessageTime, message.status AS lastMessageStatus " +
-            "FROM user LEFT JOIN message ON user.user_name = message.sender " +
-            "WHERE sender = 'd' OR receiver = 'd' GROUP BY user.user_name ORDER BY message.send_time DESC")
-    public LiveData<List<UserMessage>> getConversationList();
+    @Query("SELECT user_name AS userName, display_name AS displayName, content AS lastMessage, send_time AS lastMessageTime, userMessages.status AS lastMessageStatus " +
+            "FROM\n" +
+            "    USER\n" +
+            "LEFT JOIN (SELECT * FROM message WHERE sender = :userName OR receiver = :userName) AS userMessages ON user.user_name = userMessages.receiver OR user.user_name = userMessages.sender\n" +
+            "WHERE user_name != :userName\n" +
+            "GROUP BY user_name\n" +
+            "ORDER BY\n" +
+            "    userMessages.send_time\n" +
+            "DESC")
+     DataSource.Factory<Integer, UserMessage> getConversationList(String userName);
 }
