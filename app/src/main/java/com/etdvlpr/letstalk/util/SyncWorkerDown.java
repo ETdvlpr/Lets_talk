@@ -25,8 +25,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.ExecutionException;
 
-public class SyncWorker extends Worker {
-    public SyncWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+public class SyncWorkerDown extends Worker {
+    public SyncWorkerDown(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
 
@@ -40,14 +40,8 @@ public class SyncWorker extends Worker {
     }
 
     private void downloadData() {
-        String url = NetworkSingleton.url +"data.php?since="+SharedPref.last_down_sync;
+        String url = String.format("%sdata.php?since=%susername=%s",NetworkSingleton.url,SharedPref.last_down_sync,SharedPref.userName);
         RequestQueue queue = NetworkSingleton.getInstance(getApplicationContext()).getRequestQueue();
-//        final JsonObjectRequest dataRequest = new JsonObjectRequest
-//                (Request.Method.GET, url, null, response -> {
-//                }, error -> {
-//                });
-//        dataRequest.setShouldCache(false);
-//        queue.add(dataRequest);
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(url, null, future, future);
         queue.add(request);
@@ -79,8 +73,9 @@ public class SyncWorker extends Worker {
                         newMessages[i].setID(message.getString("ID"));
                         if(!message.getString("read_time").equals("null"))
                             newMessages[i].setReadTime(df.parse(message.getString("read_time")));
+                        if(!message.getString("sync_time").equals("null"))
+                            newMessages[i].setSyncTime(df.parse(message.getString("sync_time")));
                         newMessages[i].setSendTime(df.parse(message.getString("send_time")));
-                        newMessages[i].setSyncTime(df.parse(message.getString("sync_time")));
                         newMessages[i].setStatus(message.getString("status"));
 
                     } catch (Exception e) {

@@ -20,9 +20,6 @@ import java.util.concurrent.Executors;
 @TypeConverters({Converters.class})
 public abstract class letsTalkDb extends RoomDatabase {
     private static letsTalkDb instance;
-    private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor =
-            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static synchronized letsTalkDb getInstance(Context context) {
         if(instance == null) {

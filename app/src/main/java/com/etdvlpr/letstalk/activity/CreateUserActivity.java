@@ -30,12 +30,14 @@ public class CreateUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
         SharedPref.init(getApplicationContext());
+        String user = getIntent().getStringExtra("user");
 
         final EditText usernameEditText = findViewById(R.id.create_user_username);
         final EditText displaynameEditText = findViewById(R.id.create_user_display_name);
         final Button createButton = findViewById(R.id.create_user_btn);
         final ProgressBar loadingProgressBar = findViewById(R.id.create_user_loading);
 
+        usernameEditText.setText(user);
         DataRepository mRepository = DataRepository.getInstance(getApplicationContext());
 
         createButton.setOnClickListener(v -> {
@@ -46,6 +48,7 @@ public class CreateUserActivity extends AppCompatActivity {
                 displaynameEditText.setError("Display name cannot be empty");
                return;
             }
+            loadingProgressBar.setVisibility(View.VISIBLE);
             String username = usernameEditText.getText().toString();
             String display_name = displaynameEditText.getText().toString();
             if(!mRepository.checkUserName(username)){
@@ -54,10 +57,11 @@ public class CreateUserActivity extends AppCompatActivity {
                         new NetworkSingleton.VolleyCallback() {
                             @Override
                             public void onSuccess(String result) {
+                                loadingProgressBar.setVisibility(View.GONE);
                                 if(result.equals("success")) {
                                     User user = new User(username, display_name, null);
                                     mRepository.insertUsers(user);
-                                    SharedPref.write("UserName", username);
+                                    SharedPref.write("userName", username);
                                     SharedPref.userName = username;
                                     loadingProgressBar.setVisibility(View.VISIBLE);
                                     Intent intent = new Intent(v.getContext(), ConversationListActivity.class);
@@ -70,6 +74,7 @@ public class CreateUserActivity extends AppCompatActivity {
 
                             @Override
                             public void onError(VolleyError error) {
+                                loadingProgressBar.setVisibility(View.GONE);
                                 String errorMsg = error.getMessage();
                                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                                     errorMsg = "Internet connection not available.";

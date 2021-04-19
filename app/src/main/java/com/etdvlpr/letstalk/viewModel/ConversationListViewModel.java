@@ -15,6 +15,6 @@ public class ConversationListViewModel extends ViewModel {
 
     public ConversationListViewModel (UserMessageDao userMessageDao) {
         this.userMessageDao = userMessageDao;
-        conversationList = new LivePagedListBuilder<>(userMessageDao.getConversationList(SharedPref.read("UserName", null)),10).build();
+        conversationList = new LivePagedListBuilder<>(userMessageDao.getConversationList(SharedPref.userName),10).build();
     }
 }

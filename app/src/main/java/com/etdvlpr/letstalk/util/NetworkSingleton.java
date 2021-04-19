@@ -2,6 +2,7 @@ package com.etdvlpr.letstalk.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.LruCache;
 
 import androidx.annotation.Nullable;
@@ -31,7 +32,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class NetworkSingleton {
-    public static String url = "http://192.168.1.8:8080/lt/";
+    public static String url = "https://etdvlpr.com/";
     private static NetworkSingleton instance;
     private RequestQueue requestQueue;
     private static Context ctx;
@@ -77,6 +78,20 @@ public class NetworkSingleton {
                 MyData.put("user_name", username);
                 MyData.put("display_name", display_name);
                 return MyData;
+            }
+        };
+        dataRequest.setShouldCache(false);
+        instance.getRequestQueue().add(dataRequest);
+    }
+
+    public void uploadMsg(Map<String, String> msg, VolleyCallback callback) {
+        String url = NetworkSingleton.url +"data.php";
+        final StringRequest dataRequest = new StringRequest
+                (Request.Method.POST, url, response -> callback.onSuccess(response), error -> callback.onError(error)){
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return msg;
             }
         };
         dataRequest.setShouldCache(false);

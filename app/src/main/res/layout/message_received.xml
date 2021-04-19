@@ -36,35 +36,13 @@
             android:textColor="@color/primaryText"
             android:textSize="16sp"
             android:gravity="center_vertical" />
-
     </LinearLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/received_timestamp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="-2dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/received_contact_name"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/timestamp_height"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            android:textColor="@color/secondaryText"
-            android:textSize="12sp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/received_timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/timestamp_height"
-            android:textColor="@color/secondaryText"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+        android:layout_height="@dimen/timestamp_height"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
 
 </LinearLayout>

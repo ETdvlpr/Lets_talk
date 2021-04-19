@@ -20,10 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.ConversationActivity">
-        </activity>
         <activity android:name=".activity.ConversationListActivity"/>
+        <activity
+            android:name=".activity.ConversationActivity"
+            android:parentActivityName=".activity.ConversationListActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
         <activity android:name=".activity.CreateUserActivity"/>
 
     </application>

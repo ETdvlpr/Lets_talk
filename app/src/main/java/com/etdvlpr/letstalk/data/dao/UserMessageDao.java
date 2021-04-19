@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface UserMessageDao {
 
-    @Query("SELECT user_name AS userName, display_name AS displayName, content AS lastMessage, send_time AS lastMessageTime, userMessages.status AS lastMessageStatus " +
+    @Query("SELECT user_name AS userName, display_name AS displayName, content AS lastMessage, send_time AS lastMessageTime, userMessages.status AS lastMessageStatus, userMessages.sender AS lastMessageSender " +
             "FROM\n" +
             "    USER\n" +
             "LEFT JOIN (SELECT * FROM message WHERE sender = :userName OR receiver = :userName) AS userMessages ON user.user_name = userMessages.receiver OR user.user_name = userMessages.sender\n" +

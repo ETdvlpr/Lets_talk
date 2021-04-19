@@ -1,49 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/contentRoot"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#999">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <LinearLayout
+        android:id="@+id/contentRoot"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/activity_conversation_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/shadow_top" />
-    </FrameLayout>
-
-    <RelativeLayout
-        android:background="#fff"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="2dp">
-        <EditText
-            android:id="@+id/activity_conversation_message"
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/primaryText"/>
-        <ImageButton
-            android:id="@+id/activity_conversation_message_button"
-            android:src="@android:drawable/ic_menu_send"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:padding="4dp"
-            android:layout_alignBottom="@+id/activity_conversation_message"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            />
-    </RelativeLayout>
-</LinearLayout>
+            android:id="@+id/activity_conversation_toolbar">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="?android:attr/actionBarSize"
+                android:layout_marginRight="?android:attr/actionBarSize"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/activity_conversation_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="24sp"
+                    android:gravity="center"
+                    android:textColor="@color/white"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_height="2dp"
+                    android:background="@drawable/divider" />
+            </LinearLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <FrameLayout
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/activity_conversation_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                tools:listitem="@layout/message_sent"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/shadow_top" />
+        </FrameLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2dp">
+            <EditText
+                android:id="@+id/activity_conversation_message"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText"
+                android:inputType="textMultiLine"
+                android:isScrollContainer="true"
+                android:scrollHorizontally="false"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+            <ImageButton
+                android:id="@+id/activity_conversation_message_button"
+                android:src="@android:drawable/ic_menu_send"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="4dp"
+                android:layout_alignBottom="@+id/activity_conversation_message"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,8 +15,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 
 @Entity
 public class Message {
@@ -48,14 +54,17 @@ public class Message {
         this.receiver = receiver;
         this.status = "Sending";
 
-        try {
-            NTPUDPClient timeClient = new NTPUDPClient();
-            InetAddress inetAddress = InetAddress.getByName("time-a.nist.gov");
-            TimeInfo timeInfo = timeClient.getTime(inetAddress);
-            sendTime = new Date(timeInfo.getMessage().getTransmitTimeStamp().getTime());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sendTime = new Date();
+//        try {
+//            sendTime = Executors.newSingleThreadExecutor().submit(()-> {
+//                NTPUDPClient timeClient = new NTPUDPClient();
+//                InetAddress inetAddress = InetAddress.getByName("time-a.nist.gov");
+//                TimeInfo timeInfo = timeClient.getTime(inetAddress);
+//                return new Date(timeInfo.getMessage().getTransmitTimeStamp().getTime());
+//            }).get();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         ID = sender + sendTime.getTime();
     }
 
@@ -128,35 +137,28 @@ public class Message {
         if (this == o) return true;
         if (!(o instanceof Message)) return false;
         Message message = (Message) o;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return ID.equals(message.ID) &&
-                    Objects.equals(content, message.content) &&
-                    Objects.equals(sender, message.sender) &&
-                    Objects.equals(receiver, message.receiver) &&
-                    Objects.equals(sendTime, message.sendTime) &&
-                    Objects.equals(syncTime, message.syncTime) &&
-                    Objects.equals(readTime, message.readTime) &&
-                    Objects.equals(status, message.status);
-        } else {
-            return ID.equals(message.getID());
-        }
+        return ID.equals(message.ID) &&
+                content.equals(message.content) &&
+                sender.equals(message.sender) &&
+                receiver.equals(message.receiver) &&
+                sendTime.equals(message.sendTime) &&
+                syncTime.equals(message.syncTime) &&
+                readTime.equals(message.readTime) &&
+                status.equals(message.status);
     }
 
-    public JSONObject toJSON(){
-        JSONObject msg = new JSONObject();
+    public Map<String,String> toMap(){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Map<String, String> msg = new HashMap<String, String>();
+        msg.put("ID", getID());
+        msg.put("content", getContent());
+        msg.put("sender", getSender());
+        msg.put("receiver", getReceiver());
+        msg.put("send_time", df.format(getSendTime()));
+        msg.put("sync_time", getSyncTime() == null ? "" : df.format(getSyncTime()));
+        msg.put("read_time", getReadTime() == null ? "" : df.format(getReadTime()));
+        msg.put("status", getStatus());
 
-        try {
-            msg.put("ID", getID());
-            msg.put("content", getContent());
-            msg.put("sender", getSender());
-            msg.put("receiver", getReceiver());
-            msg.put("send_time", getSendTime());
-            msg.put("sync_time", getSyncTime());
-            msg.put("read_time", getReadTime());
-            msg.put("status", getStatus());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         return msg;
     }
 }

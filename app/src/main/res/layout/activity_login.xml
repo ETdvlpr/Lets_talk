@@ -20,6 +20,8 @@
         android:layout_marginEnd="24dp"
         android:hint="@string/prompt_user_name"
         android:selectAllOnFocus="true"
+        android:imeOptions="actionGo"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
